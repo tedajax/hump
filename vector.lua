@@ -167,17 +167,14 @@ function vector:cross(v)
 end
 
 -- the module
-return setmetatable(
-	{
-		new = new, 
-		isvector = isvector, 
-		dist = dist, 
-		lerp = lerp,
-		one = new(1, 1),
-		zero = new(0, 0),
-		unit_x = new(1, 0),
-		unit_y = new(0, 1)
-	},
-	{
-		__call = function(_, ...) return new(...) end
-	})
+return setmetatable({
+						new = new, 
+						isvector = isvector, 
+						dist = dist, 
+						lerp = lerp,
+						one = new(1, 1),
+						zero = new(0, 0),
+						unit_x = new(1, 0),
+						unit_y = new(0, 1)
+					},
+					{ __call = function(_, ...) return new(...) end })
