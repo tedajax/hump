@@ -132,3 +132,20 @@ local function lerp(ca, cb, t)
 	local result = a + (b - 1) * t
 	return result:tobyte()
 end
+
+return setmetatable({
+						new = new,
+						iscolor = iscolor,
+						lerp = lerp,
+						red = new(255, 0, 0, 255),
+						green = new(0, 255, 0, 255),
+						blue = new(0, 0, 255, 255),
+						yellow = new(255, 255, 0, 255),
+						magenta = new(255, 0, 255, 255),
+						cyan = new(0, 255, 255, 255),
+						white = new(255, 255, 255, 255),
+						grey = new(127, 127, 127, 255),
+						black = new(0, 0, 0, 255),
+						clear = new(0, 0, 0, 0)
+                    },
+                    { __call = function(_, ...) return new(...) end })
