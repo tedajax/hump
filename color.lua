@@ -1,6 +1,6 @@
 local assert = assert
 
-local function math.clamp(val, lower, upper)
+local function clamp(val, lower, upper)
     if lower > upper then lower, upper = upper, lower end -- swap if boundaries supplied the wrong way
     return math.max(lower, math.min(upper, val))
 end
@@ -27,10 +27,10 @@ function color:unpack()
 end
 
 function color:saturate()
-	self.r = math.clamp(self.r, self:minval(), self:maxval())
-	self.g = math.clamp(self.g, self:minval(), self:maxval())
-	self.b = math.clamp(self.b, self:minval(), self:maxval())
-	self.a = math.clamp(self.a, self:minval(), self:maxval())
+	self.r = clamp(self.r, self:minval(), self:maxval())
+	self.g = clamp(self.g, self:minval(), self:maxval())
+	self.b = clamp(self.b, self:minval(), self:maxval())
+	self.a = clamp(self.a, self:minval(), self:maxval())
 	return self
 end
 
@@ -46,25 +46,23 @@ function color:minval()
 	return 0
 end
 
-function color:tobyte(c)
-	assert(iscolor(c), "tobyte: wrong argument type (<color expected)")
-	if c.isbyte then return c, false end
+function color:tobyte()
+	if self.isbyte then return self, false end
 
-	return new(math.clamp(self.r * 255, 0, 255),
-			   math.clamp(self.g * 255, 0, 255),
-			   math.clamp(self.b * 255, 0, 255),
-			   math.clamp(self.a * 255, 0, 255),
+	return new(clamp(self.r * 255, 0, 255),
+			   clamp(self.g * 255, 0, 255),
+			   clamp(self.b * 255, 0, 255),
+			   clamp(self.a * 255, 0, 255),
 			   true), true
 end
 
-function color:tofloat(c)
-	assert(iscolor(c), "tobyte: wrong argument type (<color expected)")
-	if not c.isbyte then return c, false end
+function color:tofloat()
+	if not self.isbyte then return self, false end
 
-	return new(math.clamp(self.r * 255, 0, 1.0),
-			   math.clamp(self.g * 255, 0, 1.0),
-			   math.clamp(self.b * 255, 0, 1.0),
-			   math.clamp(self.a * 255, 0, 1.0),
+	return new(clamp(self.r * 255, 0, 1.0),
+			   clamp(self.g * 255, 0, 1.0),
+			   clamp(self.b * 255, 0, 1.0),
+			   clamp(self.a * 255, 0, 1.0),
 			   false), true
 end
 
@@ -96,7 +94,7 @@ function color.__mul(ca, cb)
 	if type(a) == "number" then
 		b, convert = cb:tofloat()
 		result = new(b.r * a, b.g * a, b.b * a, b.a * a, false):saturate()
-	elseif type(b) == "number then"
+	elseif type(b) == "number then" then
 		a, convert = ca:tofloat()
 		result = new(a.r * a, b.g * a, b.b * a, b.a * a, false):saturate()
 	else
