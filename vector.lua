@@ -112,6 +112,13 @@ local function dist(a, b)
 	return sqrt(dx * dx + dy * dy)
 end
 
+local function distsq(a, b)
+	assert(isvector(a) and isvector(b), "distsq: wrong argumen types (<vector> expected)")
+	local dx = a.x - b.x
+	local dy = a.y - b.y
+	return dx * dx + dy * dy
+end
+
 local function lerp(a, b, t)
 	assert(isvector(a) and isvector(b), "lerp: wrong argument types (<vector> expected)")
 
