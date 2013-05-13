@@ -105,6 +105,10 @@ function vector:len()
 	return sqrt(self.x * self.x + self.y * self.y)
 end
 
+function vector:magnitude()
+	return self:len()
+end
+
 local function dist(a, b)
 	assert(isvector(a) and isvector(b), "dist: wrong argument types (<vector> expected)")
 	local dx = a.x - b.x
@@ -127,6 +131,17 @@ local function lerp(a, b, t)
 	return new(lx, ly)
 end
 
+function vector:clamp(min, max)
+	assert(isvector(min) and isvector(max), "clamp: wrong argument types (<vector> expected)")
+
+	if self.x < min.x then self.x = min.x end
+	if self.x > max.x then self.x = max.x end
+	if self.y < min.y then self.y = min.y end
+	if self.y > max.y then self.y = max.y end
+
+	return self
+end
+
 function vector:normalize()
 	local l = self:len()
 	if l > 0 then
@@ -136,7 +151,7 @@ function vector:normalize()
 end
 
 function vector:normalized()
-	return self:clone():normalize_inplace()
+	return self:clone():normalize()
 end
 
 function vector:rotate(phi)
