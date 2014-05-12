@@ -11,7 +11,13 @@ color.__index = color
 local function new(r, g, b, a, byte)
 	local bytecolor = true
 	if byte ~= nil and byte == false then bytecolor = false end
-	return setmetatable({r = r or 0, g = g or 0, b = b or 0, a = a or 0, isbyte = bytecolor}, color)
+	local alpha = 0
+	if bytecolor then
+		alpha = 255
+	else
+		alpha = 0
+	end
+	return setmetatable({r = r or 0, g = g or 0, b = b or 0, a = a or alpha, isbyte = bytecolor}, color)
 end
 
 local function iscolor(c)
